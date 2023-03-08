@@ -1,0 +1,25 @@
+%{
+#include "parser.tab.h"
+%}
+
+%%
+<INITIAL> {
+    "<"         { yylval.string = strdup(yytext); return OPEN_TAG; }
+    "</"        { yylval.string = strdup(yytext); return CLOSE_TAG; }
+    "/>"        { return EMPTY_TAG; }
+    ">"         { return GREATER_THAN; }
+    "="         { return EQUALS; }
+    "\""        { BEGIN(ATTRIBUTE_VALUE); }
+    [a-zA-Z]+   { yylval.string = strdup(yytext); return NAME; }
+    [^<>"=]+    { yylval.string = strdup(yytext); return TEXT; }
+}
+
+<ATTRIBUTE_VALUE> {
+    "\""        { yylval.string = strdup(yytext); BEGIN(INITIAL); return VALUE; }
+    [^"]+       { yylval.string = strdup(yytext); }
+}
+%%
+
+int yywrap(void) {
+    return 1;
+}
