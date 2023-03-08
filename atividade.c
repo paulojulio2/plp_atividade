@@ -39,3 +39,9 @@ close_tag   : CLOSE_TAG            { $$ = strdup($1); free($1); }
             ;
 
 empty_tag   : OPEN_TAG attributes EMPTY_TAG       { $$ = strdup($1); $$ = strcat($
+                                                                                 
+                                                             
+void yyerror(char const *s) {
+    fprintf(stderr, "Erro de sintaxe: %s\n", s);
+}
+
