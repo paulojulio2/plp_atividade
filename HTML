@@ -1,0 +1,24 @@
+document    : elements
+
+elements    : element
+            | elements element
+
+element     : tag
+            | text
+
+tag         : open_tag elements close_tag
+            | empty_tag
+
+open_tag    : '<' tag_name attributes '>'
+close_tag   : '</' tag_name '>'
+
+empty_tag   : '<' tag_name attributes '/>'
+
+tag_name    : NAME
+
+attributes  : /* empty */
+            | attribute attributes
+
+attribute   : NAME '=' VALUE
+
+text        : TEXT
